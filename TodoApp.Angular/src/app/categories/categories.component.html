@@ -1,0 +1,8 @@
+<div class="categories">
+    <strong> Список категорий: </strong>
+    <hr>
+    @for (c of categoryService.getCategories(); track c.id) {
+        <li> {{c.title}} </li>
+    }
+</div>
+
