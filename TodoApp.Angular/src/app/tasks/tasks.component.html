@@ -1,0 +1,8 @@
+<div class="tasks">
+    <strong>Задачи:</strong>
+    <hr>
+    @for (t of tasks; track t.id) {
+        <li>  Задача: {{t.title}}</li>
+        <li>  Категория: {{t.category?.title}}</li>
+    }
+</div>

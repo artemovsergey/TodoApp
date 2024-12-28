@@ -1,8 +1,16 @@
 <div class="categories">
-    <strong> Список категорий: </strong>
+    <strong> Список категорий </strong>
+
+    <div class="category" (click)="taskService.getTasks()">
+        Все категории
+    </div>
+    
     <hr>
-    @for (c of categoryService.getCategories(); track c.id) {
-        <li> {{c.title}} </li>
+    
+    @for (c of categories ; track c.id) {
+        <div class="category" (click)="showTasksByCategory(c)">
+            <li> {{c.title}} </li>
+        </div>
     }
 </div>
 

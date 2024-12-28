@@ -1,13 +1,30 @@
 .categories{
-    border: 1px solid blueviolet;
+    border: 1px solid orange;
     margin: 1rem;
     padding: 1rem;
     list-style: none;
     width: auto;
+    justify-items: center;
+}
+
+.category{
+    margin: 1rem;
+    padding: 1rem;
+    background-color: whitesmoke;
+    width: 75%;
+    border: 2px solid orange;
+}
+
+.category:hover{
+    margin: 1rem;
+    padding: 1rem;
+    background-color: orange;
+    width: 75%
 }
 
 strong{
-    color:blueviolet;
+    font-size: large;
+    text-align: center;
 }
 
 hr{

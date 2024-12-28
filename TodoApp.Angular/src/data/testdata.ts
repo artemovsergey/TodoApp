@@ -1,3 +1,5 @@
+import { Task } from "../models/task";
+
 export class TestData {
 
   static  categories = [
@@ -18,7 +20,7 @@ export class TestData {
         { id: 5, title: "Normal", color: "#0000FF" },
   ];
 
-  static tasks = [
+  static tasks: Task[] = [
     // Данные для Task
     {
       id: 1,

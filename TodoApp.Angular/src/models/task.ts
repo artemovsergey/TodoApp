@@ -6,6 +6,6 @@ export interface Task extends IBase {
     title: string,
     complete: boolean,   
     category?: Category,
-    priority?: PriorityEnum,
+    priority?: Priority,
     date?: Date
 }
