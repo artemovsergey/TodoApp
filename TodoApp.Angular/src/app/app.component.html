@@ -1,7 +1,10 @@
 <div class="app" style="display: flex;">
-    <app-categories/>
-    <app-tasks/>
+    <app-categories [categories]="categoryService.getAll() | async"
+                    (selectCategory)="selectCategory($event)"
+    />
+    <app-tasks [tasks]="tasks" />
 </div>
+
 
 
 

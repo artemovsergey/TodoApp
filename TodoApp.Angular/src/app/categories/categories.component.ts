@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { CategoryService } from '../../services/category.service';
 import { Category } from '../../models/category';
 import { TasksService } from '../../services/tasks.service';
@@ -14,22 +14,17 @@ import { CommonModule } from '@angular/common';
 })
 export class CategoriesComponent implements OnInit {
   
-  public categoryService = inject(CategoryService)
   public taskService = inject(TasksService)
 
-  categories: Category[] = []
+  @Input()
+  categories: Category[] | null = []
 
-  constructor(){
-    console.log("CategoryComponent создан!")
-  }
+  @Output()
+  selectCategory = new EventEmitter<Category>()
 
-
-  showTasksByCategory(category: Category) {
-    this.taskService.getTasksByCategory(category)
-  }
-
-  showCategories(category: Category) {
-    console.log(category)
+  emitCategory(category: Category) {
+    //this.taskService.getTasksByCategory(category)
+    this.selectCategory.emit(category)
   }
 
   ngOnInit(): void {

@@ -61,6 +61,46 @@ export class TestData {
       category: { id: 5, title: "Travel" },
       priority: { id: 5, title: "Normal", color: "#0000FF" },
       date: new Date('2024-01-01')
+    },
+    {
+      id: 6,
+      title: "Exercise daily",
+      complete: false,
+      category: { id: 5, title: "Travel" },
+      priority: { id: 5, title: "Normal", color: "#0000FF" },
+      date: new Date('2024-01-01')
+    },
+    {
+      id: 7,
+      title: "Exercise daily",
+      complete: false,
+      category: { id: 5, title: "Travel" },
+      priority: { id: 5, title: "Normal", color: "#0000FF" },
+      date: new Date('2024-01-01')
+    },
+    {
+      id: 8,
+      title: "Exercise daily",
+      complete: false,
+      category: { id: 5, title: "Travel" },
+      priority: { id: 5, title: "Normal", color: "#0000FF" },
+      date: new Date('2024-01-01')
+    },
+    {
+      id: 9,
+      title: "Exercise daily",
+      complete: false,
+      category: { id: 5, title: "Travel" },
+      priority: { id: 5, title: "Normal", color: "#0000FF" },
+      date: new Date('2024-01-01')
+    },
+    {
+      id: 10,
+      title: "Exercise daily",
+      complete: false,
+      category: { id: 5, title: "Travel" },
+      priority: { id: 5, title: "Normal", color: "#0000FF" },
+      date: new Date('2024-01-01')
     }
   ]
 

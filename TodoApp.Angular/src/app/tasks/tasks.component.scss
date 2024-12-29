@@ -19,9 +19,21 @@
 
 .task-complete{
     text-decoration-line: line-through;
-    background-color: orange;
+    background-color: white;
 }
 
 // span{
 //     text-decoration-line: line-through;
 // }
+    
+table {
+    width: auto;
+    margin: 1rem;
+    padding: 1rem;
+}
+
+.nodata{
+    margin: 1rem;
+    padding: 1rem;
+    border: 1px solid;
+}
