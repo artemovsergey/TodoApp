@@ -6,3 +6,22 @@
     width: 500px;
     background-color: whitesmoke;
 }
+
+
+.task{
+    margin: 1rem;
+    padding: 1rem;
+    border: 1px solid orange;
+    list-style: none;
+    width: 500px;
+    background-color: whitesmoke;
+}
+
+.task-complete{
+    text-decoration-line: line-through;
+    background-color: orange;
+}
+
+// span{
+//     text-decoration-line: line-through;
+// }

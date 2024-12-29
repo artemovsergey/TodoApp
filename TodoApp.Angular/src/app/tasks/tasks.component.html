@@ -1,8 +1,33 @@
 <div class="tasks">
-    <strong>Задачи:</strong>
+    <strong>Список задач </strong>
     <hr>
-    @for (t of tasks; track t.id) {
-        <li>  Задача: {{t.title}}</li>
-        <li>  Категория: {{t.category?.title}}</li>
-    }
+
+        @if(tasks.length === 0){
+            Нет задач
+        }
+        @else{
+            @for (t of tasks; track $index) {
+                Задача {{$index + 1}}
+                <div class="task" [class.task-complete] = t.complete>
+                    <li>  
+                       <span> Название: {{t.title}} </span> 
+                    </li>
+
+                    <li [style.color]=" t.category ? '':'gray'">  
+                        {{ t.category ? "Категория: " + t.category.title : "Нет категории"}}
+                    </li>
+    
+                    <li> 
+                        Статус выполнения: {{t.complete}}
+                        <input type="checkbox" [checked]="t.complete" (change)="taskComlete(t)" >
+                    </li>
+    
+                    <li>  Дата: {{t.date | date }}</li>
+                    <li>  Приоритет: {{t.priority?.title}}</li>
+                </div>
+            }
+        }
+
+
+
 </div>

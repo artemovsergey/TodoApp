@@ -26,7 +26,7 @@ export class TestData {
       id: 1,
       title: "Finish project report",
       complete: false,
-      category: { id: 1, title: "Work" },
+      
       priority: { id: 1, title: "High", color: "#FF0000" },
       date: new Date('2024-01-15')
     },

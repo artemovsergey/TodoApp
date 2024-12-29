@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TestData } from '../data/testdata';
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { Category } from '../models/category';
 
 @Injectable({
@@ -9,7 +9,7 @@ import { Category } from '../models/category';
 export class CategoryService {
   
   // создаем поток категорий
-  categories$ = new Subject<Category[]>()
+  categories$ = new BehaviorSubject<Category[]>(TestData.categories)
 
   constructor(){
     console.log("Сервис Category создан!")

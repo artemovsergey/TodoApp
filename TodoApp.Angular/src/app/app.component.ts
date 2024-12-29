@@ -11,5 +11,5 @@ import { TasksComponent } from "./tasks/tasks.component";
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'TodoApp.Angular';
+
 }

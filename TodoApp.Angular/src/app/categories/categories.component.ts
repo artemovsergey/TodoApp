@@ -33,10 +33,12 @@ export class CategoriesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // подписались на поток категорий
-    this.categoryService.categories$.subscribe(r => this.categories = r)
-    // сервис загрузил в поток данные и отправил всем подписчикам
-    this.categoryService.getCategories()
+    // подписались на поток категорий или в шаблоне pipe async на поток
+    //this.categoryService.categories$.subscribe(r => this.categories = r)
+    
+    // сервис загрузил в поток данные и отправил всем подписчикам или
+    // можно применить behaviorsubject для инициализации начальных значений
+    //this.categoryService.getCategories()
   }
 
 
