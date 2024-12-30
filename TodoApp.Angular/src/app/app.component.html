@@ -2,7 +2,8 @@
     <app-categories [categories]="categoryService.getAll() | async"
                     (selectCategory)="selectCategory($event)"
     />
-    <app-tasks [tasks]="tasks" />
+    <app-tasks [tasks]="tasks"
+               (taskEvent)="showTask($event)" />
 </div>
 
 

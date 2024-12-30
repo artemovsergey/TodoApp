@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { TasksService } from '../../services/tasks.service';
 import { Task } from '../../models/task';
 import { CommonModule } from '@angular/common';
@@ -30,7 +30,13 @@ export class TasksComponent implements OnInit {
     this.tasks = tasks;
     this.initializeDataSource();
     console.log("setter job ...")
+  }
 
+  @Output()
+  taskEvent = new EventEmitter<Task>()
+
+  emitTask(task: Task){
+    this.taskEvent.emit(task)
   }
 
   constructor(){
