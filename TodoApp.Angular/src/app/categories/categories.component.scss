@@ -1,9 +1,9 @@
 .categories{
-    border: 1px solid orange;
+    border: 0px solid #3F51B5;
     margin: 1rem;
     padding: 1rem;
     list-style: none;
-    width: auto;
+    width: 80%;
     justify-items: center;
 }
 
@@ -12,13 +12,14 @@
     padding: 1rem;
     background-color: whitesmoke;
     width: 75%;
-    border: 2px solid orange;
+    border: 0px solid #3F51B5;
 }
 
 .category:hover{
     margin: 1rem;
     padding: 1rem;
-    background-color: orange;
+    background-color: #3F51B5;
+    color: white;
     width: 75%; 
     cursor: pointer;
 }
@@ -29,5 +30,5 @@ strong{
 }
 
 hr{
-    color: blueviolet;
+    color: #3F51B5;
 }

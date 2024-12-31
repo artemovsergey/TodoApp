@@ -21,12 +21,12 @@ export class AppComponent implements OnInit {
 
   categories!: Category[];
   tasks!: Task[];
+
   categoryService = inject(CategoryService)
   taskService = inject(TasksService)
   readonly dialog = inject(MatDialog);
 
   ngOnInit(): void {
-    //this.categoryService.getAll().subscribe(r => this.categories = r)
     this.taskService.getAll().subscribe(r => this.tasks = r)
   }
 

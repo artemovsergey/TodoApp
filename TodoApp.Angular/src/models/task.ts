@@ -1,6 +1,6 @@
 import { IBase } from "./base";
 import { Category } from "./category";
-import { Priority, PriorityEnum } from "./priority";
+import { Priority } from "./priority";
 
 export interface Task extends IBase {
     title: string,

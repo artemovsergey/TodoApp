@@ -1,5 +1,5 @@
 <div class="categories">
-    <strong> Список категорий </strong>
+    <strong style="color: #3F51B5"> Список категорий </strong>
 
     <div class="category" (click)="emitCategory(null)">
         Все категории
@@ -9,10 +9,9 @@
     
     @for (c of categories ; track $index) {
         <div class="category" (click)="emitCategory(c)">
-            <li> {{$index + 1}} {{c.title}} </li>
+            <li> {{c.title}} </li>
         </div>
     }
 
-    
 </div>
 

@@ -1,6 +1,13 @@
-<div [hidden] ="dataSource.data.length == 0" class="mat-elevation-z3">
+<div [hidden] ="dataSource.data.length == 0" class="mat-elevation-z5" style="padding: 1rem;margin: 1rem">
 
   <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+
+    <ng-container matColumnDef="number">
+      <th mat-header-cell *matHeaderCellDef> Номер </th>
+      <td mat-cell *matCellDef="let index = index" > 
+        {{index + 1}}
+      </td>
+    </ng-container>
 
     <ng-container matColumnDef="color">
         <th mat-header-cell *matHeaderCellDef> Цвет </th>
@@ -9,16 +16,9 @@
         </td>
     </ng-container>
 
-    <ng-container matColumnDef="number">
-        <th mat-header-cell *matHeaderCellDef> Номер </th>
-        <td mat-cell *matCellDef="let index = index" > 
-          {{index + 1}}
-        </td>
-    </ng-container>
-
     <ng-container matColumnDef="title">
       <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by title"> Название </th>
-      <td mat-cell *matCellDef="let t" [class.task-complete] = t.complete (click) = "emitTask(t)"> 
+      <td mat-cell *matCellDef="let t" [class.task-complete] = "t.complete" (click) = "emitTask(t)" style="cursor: pointer"> 
         {{t.title}}
       </td>
     </ng-container>
@@ -47,28 +47,37 @@
     <ng-container matColumnDef="complete">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Завершено </th>
         <td mat-cell *matCellDef="let t" [class.task-complete] = t.complete> 
-            {{t.complete}}
-            <input type="checkbox" [checked]="t.complete" (change)="taskComlete(t)" >
+            <mat-checkbox color="primary" [checked]="t.complete" (change)="taskComlete(t)"></mat-checkbox>
+            <!-- <input type="checkbox" [checked]="t.complete" (change)="taskComlete(t)" > -->
         </td>
     </ng-container>
 
     <ng-container matColumnDef="delete">
       <th mat-header-cell *matHeaderCellDef> Удаление </th>
       <td mat-cell *matCellDef="let t"> 
-        <button mat-flat-button color="primary" (click)="deleteTask(t)">Удалить</button> 
+        <button mat-icon-button color="primary" (click)="deleteTask(t)">
+          <mat-icon>delete</mat-icon>
+        </button> 
+
       </td>
     </ng-container>
   
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     
-
-
   </table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 15]"
-                 showFirstLastButtons
-                 aria-label="Select page of periodic elements">
-  </mat-paginator>
+
+  <div>
+    <mat-paginator [pageSizeOptions]="[5, 10, 15]"
+                    showFirstLastButtons
+                    aria-label="Выберите страницу" >
+    </mat-paginator>
+
+    
+  </div>
+
+<button mat-flat-button color="primary" (click)="createTask()" style="margin:0px 0px 20px 20px;">Добавить</button>
+
 
 </div>
 

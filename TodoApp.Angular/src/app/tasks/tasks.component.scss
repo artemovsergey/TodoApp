@@ -7,7 +7,6 @@
     background-color: whitesmoke;
 }
 
-
 .task{
     margin: 1rem;
     padding: 1rem;
@@ -26,14 +25,70 @@
 //     text-decoration-line: line-through;
 // }
     
+.mat-elevation-z5{
+    width: 1000px;
+}
+
 table {
-    width: auto;
-    margin: 1rem;
-    padding: 1rem;
+    border: 0px solid;
+    width: 100%;
 }
 
 .nodata{
     margin: 1rem;
     padding: 1rem;
     border: 1px solid;
+}
+
+.mat-column-number {
+    width: 1px;
+    text-align: center;
+    padding: 5px;
+    font-size: 15px;
+}
+
+.mat-column-color {
+    width: 1px;
+    border-right: 1px solid whitesmoke;
+    padding-right: 1px;
+    text-align: center;
+  }
+  
+.mat-column-title {
+font-style: italic;
+}
+  
+.mat-column-category {
+width: 32px;
+text-align: center;
+font-weight: bold;
+}
+
+.mat-column-priority {
+    width: 1px;
+    text-align: center;
+    padding-right: 5px;
+    font-size: 15px;
+}
+
+.mat-column-date {
+    width: auto;
+    text-align: center;
+    padding-left: 1px;
+    padding-right: 1px;
+    font-size: 15px;
+}
+
+.mat-column-complete {
+    width: 1px;
+    text-align: center;
+    padding-left: auto;
+    font-size: 15px;
+}
+
+.mat-column-delete {
+    width: 1px;
+    text-align: center;
+    padding-left: auto;
+    font-size: 15px;
 }

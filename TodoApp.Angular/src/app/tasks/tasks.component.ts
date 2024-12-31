@@ -7,19 +7,28 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDeleteTaskDialogComponent } from '../confirm-delete-task-dialog/confirm-delete-task-dialog.component';
+import { CreateTaskDialogComponent } from '../create-task-dialog/create-task-dialog.component';
+import {MatIconModule} from '@angular/material/icon';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatPaginatorModule, MatSortModule, MatButtonModule],
+  imports: [MatCheckboxModule, MatIconModule, CommonModule, MatTableModule, MatPaginatorModule, MatSortModule, MatButtonModule],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.scss'
 })
 export class TasksComponent implements OnInit {
 
+
+
   private _liveAnnouncer = inject(LiveAnnouncer);
   public taskService = inject(TasksService)
-  displayedColumns: string[] = ['color','number','title', 'category', 'priority', 'date', 'complete','delete'];
+  readonly dialog = inject(MatDialog);
+
+  displayedColumns: string[] = ['number','color','title', 'category', 'priority', 'date', 'complete','delete'];
   dataSource = new MatTableDataSource<Task>();
 
   @ViewChild(MatPaginator, {static: false}) paginator!: MatPaginator;
@@ -82,7 +91,36 @@ export class TasksComponent implements OnInit {
   }
 
   deleteTask(t: Task) {
-    this.taskService.delete(t)
+    this.confirmDialog(t)
   }
+
+
+  createTask() {
+    const dialogRef = this.dialog.open(
+      CreateTaskDialogComponent,
+      {data: [], autoFocus: true, width: '50%'}  // конфигурация
+    );
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result as Task){
+        this.taskService.create(result).subscribe(r => {console.log("Задача создана!")})
+      }
+    });
+
+  }
+
+  confirmDialog(task: Task): void {
+  
+      // открытие окна
+      const dialogRef = this.dialog.open(
+        ConfirmDeleteTaskDialogComponent,
+        {data: [task], autoFocus: true, width: '50%'}  // конфигурация
+      );
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) this.taskService.delete(task)
+      });
+  
+    }
 
 }

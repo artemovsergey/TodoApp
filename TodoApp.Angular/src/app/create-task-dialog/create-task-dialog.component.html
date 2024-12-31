@@ -1,58 +1,51 @@
 
-<h2 mat-dialog-title> Редактирование {{data[0].title}} </h2>
+<h2 mat-dialog-title> Создание задачи </h2>
 
 <mat-dialog-content>
 
-  Категория {{data[0].category?.title}}
-
-      <mat-form-field>
+    <mat-form-field>
         <mat-label>Название задачи </mat-label>
         <input matInput [(ngModel)]="currentTask.title" />
-      </mat-form-field>
+    </mat-form-field>
 
-      <mat-checkbox [(ngModel)] ="currentTask.complete" >Статус</mat-checkbox>
-
-      <mat-form-field>
+    <mat-form-field>
         <mat-label>Выбор даты</mat-label>
         <input matInput [matDatepicker]="picker" [(ngModel)]="currentTask.date">
         <mat-hint>MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
- 
+    </mat-form-field>
 
-      <mat-form-field>
+
+    <mat-form-field>
         <mat-label> Категория </mat-label>
         <mat-select [(ngModel)] = "currentTask.category"
                     [compareWith]="compareById" >
 
-          <mat-option [value] = "null"> Нет категории </mat-option>
-          
-          @for (c of categoryService.getAll() | async; track c.id) {
+        <mat-option [value] = "null"> Нет категории </mat-option>
+        
+        @for (c of categoryService.getAll() | async; track c.id) {
             <mat-option [value]="c">{{c.title}}</mat-option>
-          }
+        }
         </mat-select>
-      </mat-form-field>
+    </mat-form-field>
 
-
-
-      <mat-form-field>
+    <mat-form-field>
         <mat-label> Приоритет </mat-label>
         <mat-select [(ngModel)] = "currentTask.priority"
                     [compareWith]="compareById">
-          <mat-option> Нет приоритета </mat-option>
-          @for (p of priorities; track p.id) {
+        <mat-option> Нет приоритета </mat-option>
+        @for (p of priorities; track p.id) {
             <mat-option [value]="p">{{p.title}}</mat-option>
-          }
+        }
         </mat-select>
-      </mat-form-field>
-
-
-</mat-dialog-content>
+    </mat-form-field>
+  
+  </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button mat-button (click) = "cancell()">Cancel</button>
-  <button mat-flat-button color="primary" [disabled]="currentTask.title.trim().length == 0" (click) = "ok()" cdkFocusInitial >Ok</button>
+  <button mat-stroked-button color="primary" (click) = "cancell()" cdkFocusInitial>Cancel</button>
+  <button mat-flat-button color="primary" [disabled]="currentTask.title.trim().length == 0"  (click) = "ok()">Ok</button>
 </mat-dialog-actions>
 
  

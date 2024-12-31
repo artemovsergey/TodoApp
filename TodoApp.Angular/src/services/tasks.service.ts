@@ -43,7 +43,9 @@ export class TasksService implements ITaskRepository {
   }
 
   create(object: Task): Observable<Task> {
-    throw new Error('Method not implemented.');
+    this.taskCollection.push(object)
+    this.tasks$.next(this.taskCollection)
+    return of(object)
   }
 
   del(id: number): boolean {
