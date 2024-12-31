@@ -55,7 +55,7 @@ export class AppComponent implements OnInit {
 
   }
 
-  selectCategory(category: Category) {
+  selectCategory(category: Category | null) {
     console.log(category)
     this.taskService.getTasksByCategory(category)
   }

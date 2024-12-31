@@ -8,7 +8,7 @@ import { ICategoryRepository } from '../interfaces/ICategoryRepository';
   providedIn: 'root'
 })
 export class CategoryService implements ICategoryRepository{
-  
+
   // создаем поток категорий
   categories$ = new BehaviorSubject<Category[]>(TestData.categories)
 
@@ -29,7 +29,7 @@ export class CategoryService implements ICategoryRepository{
     throw new Error('Method not implemented.');
   }
 
-  delete(id: number): boolean {
+  del(id: number): boolean {
     throw new Error('Method not implemented.');
   }
 

@@ -1,4 +1,4 @@
-import { Base, IBase } from "./base";
+import { IBase } from "./base";
 import { Category } from "./category";
 import { Priority, PriorityEnum } from "./priority";
 

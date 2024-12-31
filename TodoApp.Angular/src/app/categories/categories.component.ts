@@ -20,9 +20,9 @@ export class CategoriesComponent implements OnInit {
   categories: Category[] | null = []
 
   @Output()
-  selectCategory = new EventEmitter<Category>()
+  selectCategory = new EventEmitter<Category | null>()
 
-  emitCategory(category: Category) {
+  emitCategory(category: Category | null) {
     //this.taskService.getTasksByCategory(category)
     this.selectCategory.emit(category)
   }

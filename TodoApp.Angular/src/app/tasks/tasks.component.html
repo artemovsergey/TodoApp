@@ -51,6 +51,13 @@
             <input type="checkbox" [checked]="t.complete" (change)="taskComlete(t)" >
         </td>
     </ng-container>
+
+    <ng-container matColumnDef="delete">
+      <th mat-header-cell *matHeaderCellDef> Удаление </th>
+      <td mat-cell *matCellDef="let t"> 
+        <button mat-flat-button color="primary" (click)="deleteTask(t)">Удалить</button> 
+      </td>
+    </ng-container>
   
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

@@ -2,27 +2,30 @@ import { Component, EventEmitter, inject, Input, OnInit, Output, ViewChild } fro
 import { TasksService } from '../../services/tasks.service';
 import { Task } from '../../models/task';
 import { CommonModule } from '@angular/common';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table'
+import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table'
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatPaginatorModule, MatSortModule],
+  imports: [CommonModule, MatTableModule, MatPaginatorModule, MatSortModule, MatButtonModule],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.scss'
 })
 export class TasksComponent implements OnInit {
-  
+
   private _liveAnnouncer = inject(LiveAnnouncer);
   public taskService = inject(TasksService)
-  displayedColumns: string[] = ['color','number','title', 'category', 'priority', 'date', 'complete'];
+  displayedColumns: string[] = ['color','number','title', 'category', 'priority', 'date', 'complete','delete'];
   dataSource = new MatTableDataSource<Task>();
 
   @ViewChild(MatPaginator, {static: false}) paginator!: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort!: MatSort;
+  @ViewChild(MatTable, {static: false}) table!: MatTable<Task>;
+
 
   private tasks!: Task[]
   @Input('tasks')
@@ -39,16 +42,12 @@ export class TasksComponent implements OnInit {
     this.taskEvent.emit(task)
   }
 
-  constructor(){
-    console.log("constructor ...")
-  }
-
   ngOnInit() {
-    console.log('init...')
     this.taskService.tasks$.subscribe(r => {
       this.dataSource.data = r;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+
       console.log("next .... ")
     })
 
@@ -58,7 +57,8 @@ export class TasksComponent implements OnInit {
     this.dataSource.data = this.tasks
     setTimeout(() => {
       this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort; 
+      this.dataSource.sort = this.sort;
+      this.table.renderRows();
     }, 0); 
   }
 
@@ -79,6 +79,10 @@ export class TasksComponent implements OnInit {
   taskComlete(task: Task) {
     task.complete = !task.complete
     console.log(`Статус задачи "${task.title}" изменен на ${task.complete}`)
+  }
+
+  deleteTask(t: Task) {
+    this.taskService.delete(t)
   }
 
 }
