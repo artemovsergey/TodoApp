@@ -12,11 +12,12 @@ import { ConfirmDeleteTaskDialogComponent } from '../confirm-delete-task-dialog/
 import { CreateTaskDialogComponent } from '../create-task-dialog/create-task-dialog.component';
 import {MatIconModule} from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { TaskdatePipe } from '../../pipes/taskdate.pipe';
 
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [MatCheckboxModule, MatIconModule, CommonModule, MatTableModule, MatPaginatorModule, MatSortModule, MatButtonModule],
+  imports: [TaskdatePipe, MatCheckboxModule, MatIconModule, CommonModule, MatTableModule, MatPaginatorModule, MatSortModule, MatButtonModule],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.scss'
 })

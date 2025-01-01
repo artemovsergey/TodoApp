@@ -1,0 +1,11 @@
+<h2 mat-dialog-title> Создание категории </h2>
+
+<mat-form-field>
+    <mat-label>Название категории </mat-label>
+    <input matInput [(ngModel)]="currentCategory.title" />
+</mat-form-field>
+
+<mat-dialog-actions>
+    <button mat-stroked-button color="primary" (click) = "cancel()" cdkFocusInitial>Cancel</button>
+    <button mat-flat-button color="primary" [disabled]="currentCategory.title.trim().length == 0"  (click) = "ok()">Ok</button>
+</mat-dialog-actions>

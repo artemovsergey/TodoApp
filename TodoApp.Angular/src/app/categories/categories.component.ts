@@ -4,17 +4,28 @@ import { Category } from '../../models/category';
 import { TasksService } from '../../services/tasks.service';
 import { Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateCategoryDialogComponent } from '../create-category-dialog/create-category-dialog.component';
+import { EditCategoryDialogComponent } from '../edit-category-dialog/edit-category-dialog.component';
 
 @Component({
   selector: 'app-categories',
   standalone: true,
-  imports: [CommonModule],
+  imports: [MatIconModule, MatButtonModule, CommonModule],
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.scss'
 })
 export class CategoriesComponent implements OnInit {
-  
+
+
+
+  dialog = inject(MatDialog)
+  categoryService = inject(CategoryService)
+
   public taskService = inject(TasksService)
+  selectedCategory!: Category | null
 
   @Input()
   categories: Category[] | null = []
@@ -24,7 +35,10 @@ export class CategoriesComponent implements OnInit {
 
   emitCategory(category: Category | null) {
     //this.taskService.getTasksByCategory(category)
+   
+    //this.selectedCategory = category
     this.selectCategory.emit(category)
+    this.categoryService.selectedCategory$.next(category)
   }
 
   ngOnInit(): void {
@@ -34,8 +48,41 @@ export class CategoriesComponent implements OnInit {
     // сервис загрузил в поток данные и отправил всем подписчикам или
     // можно применить behaviorsubject для инициализации начальных значений
     //this.categoryService.getCategories()
+    this.categoryService.selectedCategory$.subscribe(r => {this.selectedCategory = r; console.log('Сработала подписка: ', r)})
+   
   }
 
+  editCategory() {
+      // открываем диалог
+      const dialogRef = this.dialog.open(
+        EditCategoryDialogComponent,
+        {data: [this.selectedCategory], autoFocus: true, width: '50%'}
+      )
+  
+      // подписка на результат диалога
+      dialogRef.afterClosed().subscribe(result => {
+        if (result && result as Category){
+          this.categoryService.update(result).subscribe(r => {console.log("Категория обновлена!")})
+        }
+      });
+  }
+
+  createCategory() {
+    
+    // открываем диалог
+    const dialogRef = this.dialog.open(
+      CreateCategoryDialogComponent,
+      {data: [], autoFocus: true, width: '50%'}
+    )
+
+    // подписка на результат диалога
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result as Category){
+        this.categoryService.create(result).subscribe(r => {console.log("Категория создана!")})
+      }
+    });
+
+  } 
 
 
 }

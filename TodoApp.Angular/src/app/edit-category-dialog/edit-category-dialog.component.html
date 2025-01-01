@@ -1,0 +1,18 @@
+
+<h2 mat-dialog-title> Редактирование {{data[0].title}} </h2>
+
+<mat-dialog-content>
+
+      <mat-form-field>
+        <mat-label> Название категории </mat-label>
+        <input matInput [(ngModel)]="currentCategory.title" />
+      </mat-form-field>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button (click) = "cancel()">Cancel</button>
+  <button mat-flat-button color="primary" [disabled]="currentCategory.title.trim().length == 0" (click) = "ok()" cdkFocusInitial >Ok</button>
+</mat-dialog-actions>
+
+ 

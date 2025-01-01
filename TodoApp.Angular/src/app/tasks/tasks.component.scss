@@ -17,8 +17,17 @@
 }
 
 .task-complete{
-    text-decoration-line: line-through;
+    text-decoration-line: line-through !important;
     background-color: white;
+}
+
+.task-category{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.task-expired{
+    color: red;
 }
 
 // span{

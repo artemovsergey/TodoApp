@@ -8,7 +8,7 @@ export interface IRepository<T> {
     
     del(id: number): boolean;
     
-    update(id: number, t: T): Observable<T>;
+    update(t: T): Observable<T>;
 
     getAll(): Observable<T[]>
 

@@ -28,15 +28,15 @@ export class TestData {
       complete: false,
       
       priority: { id: 1, title: "High", color: "#FF0000" },
-      date: new Date('2024-01-15')
+      date: new Date('2024-12-31')
     },
     {
       id: 2,
       title: "Plan vacation",
-      complete: true,
+      complete: false,
       category: { id: 2, title: "Personal" },
       priority: { id: 2, title: "Medium", color: "#FFFF00" },
-      date: new Date('2024-03-20')
+      date: new Date('2025-01-01')
     },
     {
       id: 3,
@@ -44,15 +44,15 @@ export class TestData {
       complete: false,
       category: { id: 3, title: "Home Improvement" },
       priority: { id: 3, title: "Low", color: "#00FF00" },
-      date: new Date('2024-02-01')
+      date: new Date('2025-01-02')
     },
     {
       id: 4,
       title: "Buy groceries",
-      complete: true,
+      complete: false,
       category: { id: 4, title: "Shopping" },
       priority: { id: 4, title: "Critical", color: "#FF00FF" },
-      date: new Date('2024-01-05')
+      date: new Date('2025-01-03')
     },
     {
       id: 5,
@@ -60,15 +60,15 @@ export class TestData {
       complete: false,
       category: { id: 5, title: "Travel" },
       priority: { id: 5, title: "Normal", color: "#0000FF" },
-      date: new Date('2024-01-01')
+      date: new Date('2025-01-04')
     },
     {
       id: 6,
       title: "Exercise daily",
       complete: false,
       category: { id: 5, title: "Travel" },
-      priority: { id: 5, title: "Normal", color: "#0000FF" },
-      date: new Date('2024-01-01')
+      priority: { id: 5, title: "Normal", color: "#0000FF" }
+      
     },
     {
       id: 7,

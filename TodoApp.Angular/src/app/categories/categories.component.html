@@ -1,17 +1,35 @@
 <div class="categories">
     <strong style="color: #3F51B5"> Список категорий </strong>
 
-    <div class="category" (click)="emitCategory(null)">
-        Все категории
+    <div class="category"
+         [class.active] = "selectedCategory == null"
+         (click)="emitCategory(null)">
+         Все категории
     </div>
     
     <hr>
     
     @for (c of categories ; track $index) {
-        <div class="category" (click)="emitCategory(c)">
-            <li> {{c.title}} </li>
+        <div class="category"
+             [class.active] = "selectedCategory?.title == c.title"
+             (click)="emitCategory(c)">
+            
+            <li style="display: flex-box;">
+                 {{c.title}} 
+            </li>
         </div>
     }
 
+    <div>
+        <button mat-flat-button color="primary" (click)="createCategory()" ><mat-icon>add</mat-icon></button>
+    
+        <button mat-flat-button color="primary"
+                [disabled]="!(categoryService.selectedCategory$ | async)"
+                (click)="editCategory()" >
+            <mat-icon>edit</mat-icon>
+         </button>
+    </div>
+
 </div>
+
 

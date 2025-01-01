@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { TestData } from '../data/testdata';
 import { Task } from '../models/task';
 import { Category } from '../models/category';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { ITaskRepository } from '../interfaces/ITaskRepository';
+import { CategoryService } from './category.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ import { ITaskRepository } from '../interfaces/ITaskRepository';
 export class TasksService implements ITaskRepository {
 
   taskCollection: Task[] = TestData.tasks
+  categoryService = inject(CategoryService)
 
   constructor(){
     console.log("taskService init ...")
@@ -29,10 +31,15 @@ export class TasksService implements ITaskRepository {
   }
 
   getTasksByCategory(category: Category | null){
+
+    this.categoryService.selectedCategory$.next(category)
+
     if(category == null){
+      console.log('Пришел null!')
       this.tasks$.next(this.taskCollection)
       return
     }
+
     // имитация удаления
     const tasks = this.taskCollection.filter(t => t.category?.id === category.id)
     this.tasks$.next(tasks)
@@ -52,7 +59,7 @@ export class TasksService implements ITaskRepository {
     throw new Error('Method not implemented.');
   }
 
-  update(id: number, t: Task): Observable<Task> {
+  update(task: Task): Observable<Task> {
     throw new Error('Method not implemented.');
   }
 

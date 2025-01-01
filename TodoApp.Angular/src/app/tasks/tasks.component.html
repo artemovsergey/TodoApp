@@ -25,7 +25,11 @@
   
     <ng-container matColumnDef="category">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Категория </th>
-      <td mat-cell *matCellDef="let t" [style.color]=" t.category ? '':'gray'" [class.task-complete] = t.complete>
+      <td mat-cell *matCellDef="let t"
+                   (click)="t.category && taskService.getTasksByCategory(t.category)"
+                   [style.color]= "t.category ? '': 'gray' "
+                   [class.task-category] = " t.category  ? true : false"
+                   [class.task-complete] = t.complete>
         {{ t.category ? t.category.title : "Нет категории"}}
       </td>
     </ng-container>
@@ -41,7 +45,8 @@
   
     <ng-container matColumnDef="date">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Дата </th>
-      <td mat-cell *matCellDef="let t" [class.task-complete] = t.complete> {{t.date | date}} </td>
+      <td mat-cell *matCellDef="let t" [class.task-complete] = t.complete
+                                       [class.task-expired] = "(t.date | taskdate) == 'Вчера'"> {{t.date | taskdate}} </td>
     </ng-container>
 
     <ng-container matColumnDef="complete">

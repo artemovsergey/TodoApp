@@ -9,32 +9,42 @@ import { ICategoryRepository } from '../interfaces/ICategoryRepository';
 })
 export class CategoryService implements ICategoryRepository{
 
-  // создаем поток категорий
-  categories$ = new BehaviorSubject<Category[]>(TestData.categories)
+  categoryCollection: Category[] = TestData.categories
+  categories$ = new BehaviorSubject<Category[]>(this.categoryCollection)
+  selectedCategory$ = new BehaviorSubject<Category | null>(null)
 
   getAll(): Observable<Category[]> {
-    return of(TestData.categories)
+    return this.categories$ //of(this.categoryCollection)
   }
 
   getCategories(){
-    const categories = TestData.categories;
-    this.categories$.next(categories)
+    this.categories$.next(this.categoryCollection)
   }
 
   get(id: number): Observable<Category> {
     throw new Error('Method not implemented.');
   }
 
-  create(object: Category): Observable<Category> {
-    throw new Error('Method not implemented.');
+  create(category: Category): Observable<Category> {
+    this.categoryCollection.push(category)
+    this.categories$.next(this.categoryCollection)
+    return of(category)
   }
 
   del(id: number): boolean {
     throw new Error('Method not implemented.');
   }
 
-  update(id: number, t: Category): Observable<Category> {
-    throw new Error('Method not implemented.');
+  update(category: Category): Observable<Category> {
+
+    var currentCategory = this.categoryCollection.find(c => c.id == category.id)
+    if(!currentCategory) return of(category)
+
+    this.categoryCollection.splice(this.categoryCollection.indexOf(currentCategory!),1,category)    
+    // currentCategory!.title = category.title
+
+    this.categories$.next(this.categoryCollection)
+    return of(currentCategory)
   }
 
 }
