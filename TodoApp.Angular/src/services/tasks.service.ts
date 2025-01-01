@@ -20,8 +20,8 @@ export class TasksService implements ITaskRepository {
   }
 
   getAll(): Observable<Task[]> {
-    // return this.http.get<Task[]>(`${environment.baseUrl}/tasks`)
-    return this.http.get<Task[]>('testdata.json')
+    return this.http.get<Task[]>(`${environment.baseUrl}/tasks`)
+    //return this.http.get<Task[]>('testdata.json')
   }
 
   get(id: number): Observable<Task> {

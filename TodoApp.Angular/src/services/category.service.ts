@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TestData } from '../data/testdata';
-import { Subject, BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Category } from '../models/category';
 import { ICategoryRepository } from '../interfaces/ICategoryRepository';
 
