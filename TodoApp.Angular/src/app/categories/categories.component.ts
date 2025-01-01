@@ -2,7 +2,6 @@ import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular
 import { CategoryService } from '../../services/category.service';
 import { Category } from '../../models/category';
 import { TasksService } from '../../services/tasks.service';
-import { Subject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -18,8 +17,6 @@ import { EditCategoryDialogComponent } from '../edit-category-dialog/edit-catego
   styleUrl: './categories.component.scss'
 })
 export class CategoriesComponent implements OnInit {
-
-
 
   dialog = inject(MatDialog)
   categoryService = inject(CategoryService)

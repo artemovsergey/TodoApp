@@ -19,10 +19,7 @@ import { EditTaskDialogComponent } from './edit-task-dialog/edit-task-dialog.com
 })
 export class AppComponent implements OnInit {
 
-  categories!: Category[];
   tasks!: Task[];
-
-  categoryService = inject(CategoryService)
   taskService = inject(TasksService)
   readonly dialog = inject(MatDialog);
 
@@ -57,7 +54,7 @@ export class AppComponent implements OnInit {
 
   selectCategory(category: Category | null) {
     console.log(category)
-    this.taskService.getTasksByCategory(category)
+    // this.taskService.getTasksByCategory(category)
   }
 
 }

@@ -1,4 +1,6 @@
-<div [hidden] ="dataSource.data.length == 0" class="mat-elevation-z5" style="padding: 1rem;margin: 1rem">
+<div [hidden] ="dataSource.data.length == 0"
+     class="mat-elevation-z5"
+     style="padding: 1rem;margin: 1rem">
 
   <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
 
@@ -72,17 +74,16 @@
     
   </table>
 
-  <div>
-    <mat-paginator [pageSizeOptions]="[5, 10, 15]"
-                    showFirstLastButtons
-                    aria-label="Выберите страницу" >
-    </mat-paginator>
+  <mat-paginator [pageSizeOptions]="[5, 10, 15]"
+                  showFirstLastButtons >
+  </mat-paginator>
 
-    
-  </div>
-
-<button mat-flat-button color="primary" (click)="createTask()" style="margin:0px 0px 20px 20px;">Добавить</button>
-
+  <button mat-flat-button
+          color="primary"
+          (click)="createTask()"
+          style="margin:0px 0px 20px 20px;">
+          Добавить
+  </button>
 
 </div>
 

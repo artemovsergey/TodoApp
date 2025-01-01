@@ -1,66 +1,49 @@
 import { inject, Injectable } from '@angular/core';
-import { TestData } from '../data/testdata';
 import { Task } from '../models/task';
-import { Category } from '../models/category';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { ITaskRepository } from '../interfaces/ITaskRepository';
-import { CategoryService } from './category.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TasksService implements ITaskRepository {
 
-  taskCollection: Task[] = TestData.tasks
-  categoryService = inject(CategoryService)
-
-  constructor(){
-    console.log("taskService init ...")
-  }
+  http = inject(HttpClient)
 
   // сервис отдает поток данных
-  tasks$ = new BehaviorSubject<Task[]>(this.taskCollection);
+  tasks$ = new BehaviorSubject<Task[]>([]);
+
+  getTasksByCategory(categoryId: number): Observable<Task[]>{
+    return this.http.get<Task[]>(`${environment.baseUrl}/category/${categoryId}/tasks`)
+  }
 
   getAll(): Observable<Task[]> {
-    return this.tasks$
-  }
-  
-  delete(t:Task){
-    this.taskCollection = this.taskCollection.filter(item => item.id !== t.id)
-    this.tasks$.next(this.taskCollection)
-  }
-
-  getTasksByCategory(category: Category | null){
-
-    this.categoryService.selectedCategory$.next(category)
-
-    if(category == null){
-      console.log('Пришел null!')
-      this.tasks$.next(this.taskCollection)
-      return
-    }
-
-    // имитация удаления
-    const tasks = this.taskCollection.filter(t => t.category?.id === category.id)
-    this.tasks$.next(tasks)
+    // return this.http.get<Task[]>(`${environment.baseUrl}/tasks`)
+    return this.http.get<Task[]>('testdata.json')
   }
 
   get(id: number): Observable<Task> {
-    throw new Error('Method not implemented.');
+    return this.http.get<Task>(`${environment.baseUrl}/tasks/${id}`)
   }
 
-  create(object: Task): Observable<Task> {
-    this.taskCollection.push(object)
-    this.tasks$.next(this.taskCollection)
-    return of(object)
+  create(t: Task): Observable<Task> {
+    return this.http.post<Task>(`${environment.baseUrl}/tasks`, t, this.generateHeaders())
   }
 
-  del(id: number): boolean {
-    throw new Error('Method not implemented.');
+  del(id: number): Observable<boolean> {
+    return this.http.delete<boolean>(`${environment.baseUrl}/tasks/${id}`)
   }
 
-  update(task: Task): Observable<Task> {
-    throw new Error('Method not implemented.');
+  update(t: Task): Observable<Task> {
+    return this.http.put<Task>(`${environment.baseUrl}/tasks`, t, this.generateHeaders())
+  }
+
+  private generateHeaders = () => {
+    return {
+      headers: new HttpHeaders({'Content-Type': 'application/json'})
+    }
   }
 
   

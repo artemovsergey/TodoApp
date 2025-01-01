@@ -6,7 +6,7 @@ export interface IRepository<T> {
 
     create(object: T): Observable<T>;
     
-    del(id: number): boolean;
+    del(id: number): Observable<boolean>;
     
     update(t: T): Observable<T>;
 

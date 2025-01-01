@@ -31,7 +31,7 @@ export class CategoryService implements ICategoryRepository{
     return of(category)
   }
 
-  del(id: number): boolean {
+  del(id: number): Observable<boolean> {
     throw new Error('Method not implemented.');
   }
 

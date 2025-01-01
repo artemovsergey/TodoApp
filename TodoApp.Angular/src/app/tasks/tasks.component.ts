@@ -23,10 +23,8 @@ import { TaskdatePipe } from '../../pipes/taskdate.pipe';
 })
 export class TasksComponent implements OnInit {
 
-
-
   private _liveAnnouncer = inject(LiveAnnouncer);
-  public taskService = inject(TasksService)
+  taskService = inject(TasksService)
   readonly dialog = inject(MatDialog);
 
   displayedColumns: string[] = ['number','color','title', 'category', 'priority', 'date', 'complete','delete'];
@@ -42,18 +40,14 @@ export class TasksComponent implements OnInit {
   set setTasks(tasks: Task[]){
     this.tasks = tasks;
     this.initializeDataSource();
-    console.log("setter job ...")
+    console.log(this.tasks)
   }
 
-  @Output()
-  taskEvent = new EventEmitter<Task>()
-
-  emitTask(task: Task){
-    this.taskEvent.emit(task)
-  }
+  @Output() taskEvent = new EventEmitter<Task>()
 
   ngOnInit() {
     this.taskService.tasks$.subscribe(r => {
+
       this.dataSource.data = r;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -61,6 +55,10 @@ export class TasksComponent implements OnInit {
       console.log("next .... ")
     })
 
+  }
+
+  emitTask(task: Task){
+    this.taskEvent.emit(task)
   }
 
   private initializeDataSource(){
@@ -119,7 +117,10 @@ export class TasksComponent implements OnInit {
       );
   
       dialogRef.afterClosed().subscribe(result => {
-        if (result) this.taskService.delete(task)
+        if (result) {
+          console.log('процедура удаления задачи...')
+          // this.taskService.delete(task)
+        }
       });
   
     }

@@ -1,0 +1,71 @@
+[
+    {
+      "id": 1,
+      "title": "Задача 1",
+      "complete": false,
+      "category": {
+        "id": 101,
+        "title": "Категория 1"
+      },
+      "priority": {
+        "id": 201,
+        "title": "Высокий",
+        "color": "#FF0000"
+      },
+      "date": "2025-01-01T00:00:00Z"
+    },
+    {
+      "id": 2,
+      "title": "Задача 2",
+      "complete": true,
+      "category": {
+        "id": 102,
+        "title": "Категория 2"
+      },
+      "priority": {
+        "id": 202,
+        "title": "Средний",
+        "color": "#FFFF00"
+      },
+      "date": "2023-01-02T00:00:00Z"
+    },
+    {
+      "id": 3,
+      "title": "Задача 3",
+      "complete": false,
+      "category": {
+        "id": 103,
+        "title": "Категория 3"
+      },
+      "priority": {
+        "id": 203,
+        "title": "Низкий",
+        "color": "#00FF00"
+      },
+      "date": "2023-01-03T00:00:00Z"
+    },
+    {
+      "id": 4,
+      "title": "Задача 4",
+      "complete": false,
+      "category": null,
+      "priority": null,
+      "date": "2023-01-04T00:00:00Z"
+    },
+    {
+      "id": 5,
+      "title": "Задача 5",
+      "complete": true,
+      "category": {
+        "id": 104,
+        "title": "Категория 4"
+      },
+      "priority": {
+        "id": 204,
+        "title": "Высокий",
+        "color": "#0000FF"
+      },
+      "date": null
+    }
+  ]
+  
