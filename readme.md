@@ -58,3 +58,15 @@
 
 # мобильная версия
 - для определения типа устройства пользователя ```npx-device-detector```
+
+# первичный конструктор
+
+# проблемы c nuget
+
+- по пути C:\Users\asv\AppData\Roaming\NuGet удалить конфиг nuget
+- dotnet nuget locals all --clear
+- перезагрузить
+
+# работа с dotnet tool
+
+- dotnet tool list

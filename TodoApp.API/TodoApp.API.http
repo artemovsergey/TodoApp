@@ -1,4 +1,4 @@
-@TodoApp.API_HostAddress = http://localhost:5036
+@backend = http://localhost:5036
 
-GET http://localhost:5036/api/tasks
+GET  {{backend}}/api/tasks
 Accept: application/json
