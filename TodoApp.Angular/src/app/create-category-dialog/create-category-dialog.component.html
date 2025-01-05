@@ -2,10 +2,10 @@
 
 <mat-form-field>
     <mat-label>Название категории </mat-label>
-    <input matInput [(ngModel)]="currentCategory.title" />
+    <input matInput [(ngModel)] = "currentCategory.title" />
 </mat-form-field>
 
 <mat-dialog-actions>
     <button mat-stroked-button color="primary" (click) = "cancel()" cdkFocusInitial>Cancel</button>
-    <button mat-flat-button color="primary" [disabled]="currentCategory.title.trim().length == 0"  (click) = "ok()">Ok</button>
+    <button mat-flat-button color="primary" (click) = "ok()" [disabled]="currentCategory.title.trim().length == 0">Ok</button>
 </mat-dialog-actions>

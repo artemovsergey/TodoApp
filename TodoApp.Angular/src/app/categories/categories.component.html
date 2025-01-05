@@ -28,6 +28,12 @@
                 (click)="editCategory()" >
             <mat-icon>edit</mat-icon>
          </button>
+
+         <button mat-flat-button color="primary"
+                 [disabled]="!(categoryService.selectedCategory$ | async)"
+                 (click)="removeCategory()" >
+            <mat-icon>delete</mat-icon>
+        </button>
     </div>
 
 </div>

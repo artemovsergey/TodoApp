@@ -20,8 +20,7 @@ export class CategoriesComponent implements OnInit {
 
   dialog = inject(MatDialog)
   categoryService = inject(CategoryService)
-
-  public taskService = inject(TasksService)
+  taskService = inject(TasksService)
   selectedCategory!: Category | null
 
   @Input()
@@ -30,10 +29,30 @@ export class CategoriesComponent implements OnInit {
   @Output()
   selectCategory = new EventEmitter<Category | null>()
 
+  @Output()
+  updateEvent = new EventEmitter<boolean>()
+
+  removeCategory() {
+    this.categoryService.del(this.selectedCategory!.id).subscribe(
+      next => { 
+        console.log("Категория удалена!")
+        this.selectedCategory = null
+        this.updateEvent.emit()
+
+        this.taskService.getTasksByCategory(0).subscribe(
+          tasks => {this.taskService.tasks$.next(tasks); console.log("! ",tasks)}
+        )
+
+      }
+    )
+  }
+
   emitCategory(category: Category | null) {
-    //this.taskService.getTasksByCategory(category)
-   
-    //this.selectedCategory = category
+
+    this.taskService.getTasksByCategory(category?.id ?? 0).subscribe(
+      tasks => {this.taskService.tasks$.next(tasks); console.log("! ",tasks)}
+    )
+  
     this.selectCategory.emit(category)
     this.categoryService.selectedCategory$.next(category)
   }
@@ -59,7 +78,16 @@ export class CategoriesComponent implements OnInit {
       // подписка на результат диалога
       dialogRef.afterClosed().subscribe(result => {
         if (result && result as Category){
-          this.categoryService.update(result).subscribe(r => {console.log("Категория обновлена!")})
+          this.categoryService.update(result).subscribe(
+            r => {
+              console.log("Категория обновлена!")
+
+              // обновить задачи
+              this.taskService.getTasksByCategory(result?.id ?? 0).subscribe(
+                tasks => {this.taskService.tasks$.next(tasks); console.log("! ",tasks)}
+              )
+            }
+          )
         }
       });
   }
@@ -75,7 +103,12 @@ export class CategoriesComponent implements OnInit {
     // подписка на результат диалога
     dialogRef.afterClosed().subscribe(result => {
       if (result && result as Category){
-        this.categoryService.create(result).subscribe(r => {console.log("Категория создана!")})
+        this.categoryService.create(result).subscribe(
+          r => {
+            console.log("Категория создана!")
+            this.updateEvent.emit(true)
+          }
+        )
       }
     });
 

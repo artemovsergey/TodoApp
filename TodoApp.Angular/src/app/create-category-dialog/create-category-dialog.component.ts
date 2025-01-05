@@ -18,7 +18,7 @@ export class CreateCategoryDialogComponent {
   dialogRef = inject(MatDialogRef<CreateCategoryDialogComponent>)
 
   currentCategory: Category = {
-    id: 10,
+    id: 0,
     title: ""
   }
 

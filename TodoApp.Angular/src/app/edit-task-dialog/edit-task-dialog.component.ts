@@ -12,6 +12,8 @@ import { CommonModule } from '@angular/common';
 import { Priority } from '../../models/priority';
 import { TestData } from '../../data/testdata';
 import { Category } from '../../models/category';
+import { Task } from '../../models/task';
+import { PriorityService } from '../../services/priority.service';
 
 @Component({
   selector: 'app-edit-task-dialog',
@@ -25,42 +27,49 @@ import { Category } from '../../models/category';
 export class EditTaskDialogComponent implements OnInit{
 
   categoryService = inject(CategoryService)
+  priorityService = inject(PriorityService)
+  
   private dialogRef = inject(MatDialogRef<EditTaskDialogComponent>)
   readonly data = inject<any>(MAT_DIALOG_DATA)
-  priorities: Priority[] = TestData.priorities
 
-  currentTask: any = {}
+  priorities: Priority[] = []
+  categories: Category[] = []
 
-  //currentCategory: Category = this.data[0].category
-  //categories: Category[] = TestData.categories
+  currentTask: Task = {
+    id: this.data[0].id,
+    title: this.data[0].title,
+    complete: this.data[0].complete,
+    date: this.data[0].date,
+    priorityId: this.data[0]?.priorityId,
+    categoryId: this.data[0]?.categoryId,
+  }
 
   ngOnInit(): void {
-    this.currentTask.title = this.data[0].title
-    this.currentTask.complete = this.data[0].complete
-    this.currentTask.date = this.data[0].date
-    this.currentTask.category = this.data[0].category
-    this.currentTask.priority = this.data[0].priority
+
+    this.categoryService.getAll().subscribe(
+      next => {this.categories = next}
+    )
+
+    this.priorityService.getAll().subscribe(
+      next => {this.priorities = next}
+    )
   }
 
   ok(): any {
-    console.log("Передана задача: ", this.data[0].title)
-    this.data[0].title = this.currentTask.title
-    this.data[0].complete = this.currentTask.complete
-    this.data[0].date = this.currentTask.date
-    this.data[0].category = this.currentTask.category
-    this.data[0].priority = this.currentTask.priority
-
-    this.dialogRef.close(this.data[0])
+    this.dialogRef.close(this.currentTask)
   }
 
   cancell() {
     this.dialogRef.close()
   }
 
-  compareById(f1: any, f2: any): boolean {
-    return f1 && f2 && f1.id === f2.id;
-  }
+  // compareByCategory(f1: Category, f2: Task): boolean {
+  //   return  f1.id === f2.categoryId;
+  // }
 
+  // compareByPriority(f1: Priority, f2: Task): boolean {
+  //   return f1 && f2 && f1.id === f2.priorityId;
+  // }
 
   // @HostListener('document:keydown', ['$event'])
   // handleKeyboardEvent(event: KeyboardEvent): void {

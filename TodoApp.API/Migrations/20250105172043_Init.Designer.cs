@@ -11,7 +11,7 @@ using TodoApp.API.Data;
 namespace TodoApp.API.Migrations
 {
     [DbContext(typeof(TodoAppContext))]
-    [Migration("20250102163617_Init")]
+    [Migration("20250105172043_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -32,7 +32,7 @@ namespace TodoApp.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Category");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("TodoApp.API.Models.Priority", b =>
@@ -51,7 +51,7 @@ namespace TodoApp.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Priority");
+                    b.ToTable("Priorities");
                 });
 
             modelBuilder.Entity("TodoApp.API.Models.TaskEntity", b =>
@@ -60,13 +60,16 @@ namespace TodoApp.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("CategoryId")
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Complete")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("PriorityId")
+                    b.Property<int?>("PriorityId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
@@ -86,15 +89,11 @@ namespace TodoApp.API.Migrations
                 {
                     b.HasOne("TodoApp.API.Models.Category", "Category")
                         .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CategoryId");
 
                     b.HasOne("TodoApp.API.Models.Priority", "Priority")
                         .WithMany()
-                        .HasForeignKey("PriorityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PriorityId");
 
                     b.Navigation("Category");
 

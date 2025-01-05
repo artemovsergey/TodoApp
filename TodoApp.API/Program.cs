@@ -13,6 +13,6 @@ builder.Services.AddCors();
 var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
-app.UseCors(o => o.AllowAnyOrigin());
+app.UseCors(o => o.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 app.MapControllers();
 app.Run();

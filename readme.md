@@ -70,3 +70,7 @@
 # работа с dotnet tool
 
 - dotnet tool list
+
+# sqlite include foreign keys
+
+```pragma foreign_keys = true```

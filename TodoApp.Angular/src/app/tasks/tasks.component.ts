@@ -13,6 +13,8 @@ import { CreateTaskDialogComponent } from '../create-task-dialog/create-task-dia
 import {MatIconModule} from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { TaskdatePipe } from '../../pipes/taskdate.pipe';
+import { Category } from '../../models/category';
+import { CategoryService } from '../../services/category.service';
 
 @Component({
   selector: 'app-tasks',
@@ -22,10 +24,19 @@ import { TaskdatePipe } from '../../pipes/taskdate.pipe';
   styleUrl: './tasks.component.scss'
 })
 export class TasksComponent implements OnInit {
+  
+  getTasksByCategory(category: Category) {
+    this.taskService.getTasksByCategory(category?.id ?? 0).subscribe(
+      tasks => {this.taskService.tasks$.next(tasks); console.log("! ",tasks)}
+    )
 
-  private _liveAnnouncer = inject(LiveAnnouncer);
+    this.categoryService.selectedCategory$.next(category)
+  }
+
   taskService = inject(TasksService)
-  readonly dialog = inject(MatDialog);
+  categoryService = inject(CategoryService)
+  _liveAnnouncer = inject(LiveAnnouncer);
+  dialog = inject(MatDialog);
 
   displayedColumns: string[] = ['number','color','title', 'category', 'priority', 'date', 'complete','delete'];
   dataSource = new MatTableDataSource<Task>();
@@ -34,41 +45,47 @@ export class TasksComponent implements OnInit {
   @ViewChild(MatSort, {static: false}) sort!: MatSort;
   @ViewChild(MatTable, {static: false}) table!: MatTable<Task>;
 
-
-  private tasks!: Task[]
-  @Input('tasks')
-  set setTasks(tasks: Task[]){
-    this.tasks = tasks;
-    this.initializeDataSource();
-    console.log(this.tasks)
-  }
+  // private tasks!: Task[]
+  // @Input('tasks')
+  // set setTasks(tasks: Task[]){
+  //   this.tasks = tasks;
+  //   this.initializeDataSource();
+  //   console.log(this.tasks)
+  // }
 
   @Output() taskEvent = new EventEmitter<Task>()
 
   ngOnInit() {
-    this.taskService.tasks$.subscribe(r => {
+    this.taskService.getAll().subscribe(r => {
+      this.taskService.tasks$.next(r)
+    })
 
+    this.loadData()
+    
+    console.log("onInit...")
+  }
+
+  loadData(){
+    this.taskService.tasks$.subscribe(r => {
       this.dataSource.data = r;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-
       console.log("next .... ")
     })
-
   }
 
   emitTask(task: Task){
     this.taskEvent.emit(task)
   }
 
-  private initializeDataSource(){
-    this.dataSource.data = this.tasks
-    setTimeout(() => {
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-      this.table.renderRows();
-    }, 0); 
-  }
+  // private initializeDataSource(){
+  //   this.dataSource.data = this.tasks
+  //   setTimeout(() => {
+  //     this.dataSource.paginator = this.paginator;
+  //     this.dataSource.sort = this.sort;
+  //     this.table.renderRows();
+  //   }, 0); 
+  // }
 
   // ngAfterViewInit() {
   //   this.dataSource.paginator = this.paginator;
@@ -83,33 +100,15 @@ export class TasksComponent implements OnInit {
     }
   }
 
-
   taskComlete(task: Task) {
     task.complete = !task.complete
     console.log(`Статус задачи "${task.title}" изменен на ${task.complete}`)
   }
 
-  deleteTask(t: Task) {
-    this.confirmDialog(t)
-  }
+  deleteTask(task: Task) {
 
-
-  createTask() {
-    const dialogRef = this.dialog.open(
-      CreateTaskDialogComponent,
-      {data: [], autoFocus: true, width: '50%'}  // конфигурация
-    );
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result && result as Task){
-        this.taskService.create(result).subscribe(r => {console.log("Задача создана!")})
-      }
-    });
-
-  }
-
-  confirmDialog(task: Task): void {
-  
+      const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+      buttonElement.blur(); // Remove focus from the button
       // открытие окна
       const dialogRef = this.dialog.open(
         ConfirmDeleteTaskDialogComponent,
@@ -119,10 +118,42 @@ export class TasksComponent implements OnInit {
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
           console.log('процедура удаления задачи...')
-          // this.taskService.delete(task)
+          this.taskService.del(task.id).subscribe(
+            next => {
+              console.log("Удаление завершено!")
+
+              this.taskService.getAll().subscribe(r => {
+                this.taskService.tasks$.next(r)
+              })
+              
+              }
+          )
         }
       });
+  }
+
+  createTask() {
+
+    const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
+    buttonElement.blur(); // Remove focus from the button
   
-    }
+    const dialogRef = this.dialog.open(
+      CreateTaskDialogComponent,
+      {data: [], autoFocus: true, width: '50%'}  // конфигурация
+    );
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result as Task){
+        this.taskService.create(result).subscribe(
+          next => {
+            this.taskService.getAll().subscribe(r => {
+              this.taskService.tasks$.next(r)
+            })
+          }
+        )
+      }
+    });
+
+  }
 
 }

@@ -19,12 +19,34 @@ import { EditTaskDialogComponent } from './edit-task-dialog/edit-task-dialog.com
 })
 export class AppComponent implements OnInit {
 
+
+  refresh() {
+    // this.categories.push({id: 15, title: "2"})
+    this.categories[0].title = "1"
+  }
+
+
+
   tasks!: Task[];
+  categories!: Category[];
+
   taskService = inject(TasksService)
+  categoryService = inject(CategoryService)
+
   readonly dialog = inject(MatDialog);
 
   ngOnInit(): void {
-    this.taskService.getAll().subscribe(r => this.tasks = r)
+    this.loadData();
+  }
+
+  loadData(){
+    this.taskService.getAll().subscribe(r => {this.tasks = r; 
+                                              this.taskService.tasks$.next(r)})
+    this.categoryService.getAll().subscribe(r => this.categories = r)
+  }
+
+  updateCategories() {
+    this.categoryService.getAll().subscribe(r => this.categories = r)
   }
 
   showTask($event: Task) {
@@ -43,10 +65,13 @@ export class AppComponent implements OnInit {
     // что делать после закрытия окна
     dialogRef.afterClosed().subscribe(result => {
 
-      console.log('Диалог закрыт...');
-
       if (result !== undefined) {
         console.log("Результат: ", result)
+
+        this.taskService.update(result).subscribe(
+          next => {console.log("Update task"); this.loadData()  }
+        )
+
       }
     });
 

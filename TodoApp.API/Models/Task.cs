@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+
 namespace TodoApp.API.Models;
 
 public abstract class Base{
@@ -8,12 +10,22 @@ public abstract class Base{
 
 public class TaskEntity : Base
 {
-
     public DateTime Date {get; set;} = DateTime.UtcNow;
-    public int CategoryId {get; set; }
+
+        
+    public int? CategoryId {get; set; }
+    
+    // [DeleteBehavior(DeleteBehavior.ClientSetNull)]
     public Category? Category {get; set;}
-    public int PriorityId {get ; set;}
+
+
+    public int? PriorityId {get ; set;}
+
+    // [DeleteBehavior(DeleteBehavior.ClientSetNull)]
     public Priority? Priority {get ;set;}
+
+    public bool Complete {get; set; } = false;
+
 }
 
 public class Category : Base

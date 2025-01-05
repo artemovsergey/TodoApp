@@ -1,20 +1,26 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { TestData } from '../data/testdata';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Category } from '../models/category';
 import { ICategoryRepository } from '../interfaces/ICategoryRepository';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService implements ICategoryRepository{
 
+  http = inject(HttpClient)
+
   categoryCollection: Category[] = TestData.categories
+  
   categories$ = new BehaviorSubject<Category[]>(this.categoryCollection)
+  
   selectedCategory$ = new BehaviorSubject<Category | null>(null)
 
   getAll(): Observable<Category[]> {
-    return this.categories$ //of(this.categoryCollection)
+    return this.http.get<Category[]>(`${environment.baseUrl}/Category`)
   }
 
   getCategories(){
@@ -26,25 +32,15 @@ export class CategoryService implements ICategoryRepository{
   }
 
   create(category: Category): Observable<Category> {
-    this.categoryCollection.push(category)
-    this.categories$.next(this.categoryCollection)
-    return of(category)
+      return this.http.post<Category>(`${environment.baseUrl}/Category`,category)
   }
 
   del(id: number): Observable<boolean> {
-    throw new Error('Method not implemented.');
+    return this.http.delete<boolean>(`${environment.baseUrl}/Category/${id}`)
   }
 
   update(category: Category): Observable<Category> {
-
-    var currentCategory = this.categoryCollection.find(c => c.id == category.id)
-    if(!currentCategory) return of(category)
-
-    this.categoryCollection.splice(this.categoryCollection.indexOf(currentCategory!),1,category)    
-    // currentCategory!.title = category.title
-
-    this.categories$.next(this.categoryCollection)
-    return of(currentCategory)
+    return this.http.put<Category>(`${environment.baseUrl}/Category`, category)
   }
 
 }
