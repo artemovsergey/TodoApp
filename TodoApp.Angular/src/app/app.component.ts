@@ -13,7 +13,7 @@ import { EditTaskDialogComponent } from './edit-task-dialog/edit-task-dialog.com
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CategoriesComponent, TasksComponent, CommonModule],
+  imports: [CategoriesComponent, TasksComponent, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
