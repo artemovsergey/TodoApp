@@ -21,7 +21,9 @@
     }
 
     <div>
-        <button mat-flat-button color="primary" (click)="createCategory()" ><mat-icon>add</mat-icon></button>
+        <button mat-flat-button color="primary" (click)="createCategory()" >
+            <mat-icon>add</mat-icon>
+        </button>
     
         <button mat-flat-button color="primary"
                 [disabled]="!(categoryService.selectedCategory$ | async)"

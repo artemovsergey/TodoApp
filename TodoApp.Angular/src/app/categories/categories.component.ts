@@ -1,4 +1,11 @@
-import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { CategoryService } from '../../services/category.service';
 import { Category } from '../../models/category';
 import { TasksService } from '../../services/tasks.service';
@@ -14,105 +21,93 @@ import { EditCategoryDialogComponent } from '../edit-category-dialog/edit-catego
   standalone: true,
   imports: [MatIconModule, MatButtonModule, CommonModule],
   templateUrl: './categories.component.html',
-  styleUrl: './categories.component.scss'
+  styleUrl: './categories.component.scss',
 })
 export class CategoriesComponent implements OnInit {
-
-  dialog = inject(MatDialog)
-  categoryService = inject(CategoryService)
-  taskService = inject(TasksService)
-  selectedCategory!: Category | null
+  dialog = inject(MatDialog);
+  categoryService = inject(CategoryService);
+  taskService = inject(TasksService);
+  selectedCategory!: Category | null;
 
   @Input()
-  categories: Category[] | null = []
+  categories: Category[] | null = [];
 
   @Output()
-  selectCategory = new EventEmitter<Category | null>()
+  selectCategory = new EventEmitter<Category | null>();
 
   @Output()
-  updateEvent = new EventEmitter<boolean>()
+  updateEvent = new EventEmitter<boolean>();
+
+  ngOnInit(): void {
+    this.categoryService.selectedCategory$.subscribe((r) => {
+      this.selectedCategory = r;
+    });
+  }
 
   removeCategory() {
-    this.categoryService.del(this.selectedCategory!.id).subscribe(
-      next => { 
-        console.log("Категория удалена!")
-        this.selectedCategory = null
-        this.updateEvent.emit()
+    this.categoryService.del(this.selectedCategory!.id).subscribe((next) => {
+      console.log('Категория удалена!');
+      this.selectedCategory = null;
+      this.updateEvent.emit();
 
-        this.taskService.getTasksByCategory(0).subscribe(
-          tasks => {this.taskService.tasks$.next(tasks); console.log("! ",tasks)}
-        )
-
-      }
-    )
+      this.taskService.getTasksByCategory(0).subscribe((tasks) => {
+        this.taskService.tasks$.next(tasks);
+        console.log('! ', tasks);
+      });
+    });
   }
 
   emitCategory(category: Category | null) {
+    this.taskService
+      .getTasksByCategory(category?.id ?? 0)
+      .subscribe((tasks) => {
+        this.taskService.tasks$.next(tasks);
+        console.log('! ', tasks);
+      });
 
-    this.taskService.getTasksByCategory(category?.id ?? 0).subscribe(
-      tasks => {this.taskService.tasks$.next(tasks); console.log("! ",tasks)}
-    )
-  
-    this.selectCategory.emit(category)
-    this.categoryService.selectedCategory$.next(category)
-  }
-
-  ngOnInit(): void {
-    // подписались на поток категорий или в шаблоне pipe async на поток
-    //this.categoryService.categories$.subscribe(r => this.categories = r)
-    
-    // сервис загрузил в поток данные и отправил всем подписчикам или
-    // можно применить behaviorsubject для инициализации начальных значений
-    //this.categoryService.getCategories()
-    this.categoryService.selectedCategory$.subscribe(r => {this.selectedCategory = r; console.log('Сработала подписка: ', r)})
-   
+    this.selectCategory.emit(category);
+    this.categoryService.selectedCategory$.next(category);
   }
 
   editCategory() {
-      // открываем диалог
-      const dialogRef = this.dialog.open(
-        EditCategoryDialogComponent,
-        {data: [this.selectedCategory], autoFocus: true, width: '50%'}
-      )
-  
-      // подписка на результат диалога
-      dialogRef.afterClosed().subscribe(result => {
-        if (result && result as Category){
-          this.categoryService.update(result).subscribe(
-            r => {
-              console.log("Категория обновлена!")
+    const dialogRef = this.dialog.open(EditCategoryDialogComponent, {
+      data: [this.selectedCategory],
+      autoFocus: true,
+      width: '50%',
+    });
 
-              // обновить задачи
-              this.taskService.getTasksByCategory(result?.id ?? 0).subscribe(
-                tasks => {this.taskService.tasks$.next(tasks); console.log("! ",tasks)}
-              )
-            }
-          )
-        }
-      });
+    // подписка на результат диалога
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result && (result as Category)) {
+        this.categoryService.update(result).subscribe((r) => {
+          console.log('Категория обновлена!');
+
+          // обновить задачи
+          this.taskService
+            .getTasksByCategory(result?.id ?? 0)
+            .subscribe((tasks) => {
+              this.taskService.tasks$.next(tasks);
+              console.log('! ', tasks);
+            });
+        });
+      }
+    });
   }
 
   createCategory() {
-    
-    // открываем диалог
-    const dialogRef = this.dialog.open(
-      CreateCategoryDialogComponent,
-      {data: [], autoFocus: true, width: '50%'}
-    )
-
-    // подписка на результат диалога
-    dialogRef.afterClosed().subscribe(result => {
-      if (result && result as Category){
-        this.categoryService.create(result).subscribe(
-          r => {
-            console.log("Категория создана!")
-            this.updateEvent.emit(true)
-          }
-        )
-      }
+    const dialogRef = this.dialog.open(CreateCategoryDialogComponent, {
+      data: [],
+      autoFocus: true,
+      width: '50%',
     });
 
-  } 
-
-
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result && (result as Category)) {
+        this.categoryService.create(result).subscribe((r) => {
+          console.log('Категория создана!');
+          this.updateEvent.emit(true);
+        });
+      }
+    });
+  }
 }
