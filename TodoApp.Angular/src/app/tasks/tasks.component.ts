@@ -109,6 +109,8 @@ export class TasksComponent implements OnInit {
 
       const buttonElement = document.activeElement as HTMLElement; // Get the currently focused element
       buttonElement.blur(); // Remove focus from the button
+      
+      
       // открытие окна
       const dialogRef = this.dialog.open(
         ConfirmDeleteTaskDialogComponent,
